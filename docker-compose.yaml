@@ -9,7 +9,6 @@ services:
       - "5001:5001"
     volumes:
       - "./config/envoy.yaml:/etc/envoy.yaml"
-      - "./discovery_response.yaml:/etc/envoy_discovery.yaml"
     command: ["envoy", "-c", "/etc/envoy.yaml", "--v2-config-only"]
 
   nginx:
