@@ -1,0 +1,23 @@
+version: '3'
+services:
+  envoy:
+    image: envoyproxy/envoy
+    links:
+      - endpoints_service
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    volumes:
+      - "./config/envoy.yaml:/etc/envoy.yaml"
+      - "./discovery_response.yaml:/etc/envoy_discovery.yaml"
+    command: ["envoy", "-c", "/etc/envoy.yaml", "--v2-config-only"]
+
+  nginx:
+    image: "nginx"
+    network_mode: "service:envoy"
+
+  endpoints_service:
+    build: .
+    ports:
+      - "8000:80"
+
